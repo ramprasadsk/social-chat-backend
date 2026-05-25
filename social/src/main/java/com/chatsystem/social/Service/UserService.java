@@ -28,30 +28,38 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    public String register(RegisterRequest registerRequest) {
+    public UserResponse register(RegisterRequest registerRequest) {
         if(userRepository.findByEmail(registerRequest.getEmail()).isPresent()){
-            return "Email already registered";
+            return null;
         }
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         String hash = encoder.encode(registerRequest.getPassword());
         user.setPassword(hash);
-        userRepository.save(user);
-        return "User registered successfully";
+        User saved = userRepository.save(user);
+        return new UserResponse(
+            saved.getId(),
+            saved.getUsername(),
+            saved.getEmail()
+        );
     }
 
-    public String login(LoginRequest loginRequest){
+    public UserResponse login(LoginRequest loginRequest){
         Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
         if(user.isEmpty()){
-            return "Email unregistered";
+            return null;
         }
         User userPresent = user.get();
         if(encoder.matches(loginRequest.getPassword(), userPresent.getPassword())){
             session.setAttribute("user", userPresent);
-            return "Login success";
+            return new UserResponse(
+                userPresent.getId(),
+                userPresent.getUsername(),
+                userPresent.getEmail()
+            );
         }
-        return "Password mismatch";
+        return null;
     }
 
     public List<UserResponse> getUsers(){

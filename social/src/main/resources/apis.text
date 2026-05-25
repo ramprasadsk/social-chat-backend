@@ -1,0 +1,8 @@
+POST = loginUser:http://localhost:8080/auth/login
+POST = registerUser:http://localhost:8080/auth/register
+GET = getAllUsers: http://localhost:8080/users
+POST = logout: http://localhost:8080/auth/logout
+POST = sendMessages: http://localhost:8080/messages/send
+GET = conversationList: http://localhost:8080/messages/conversation/{userId}
+PUT = read: https://localhost:8080/messages/read/{userId}
+GET = unreadCount: http://localhost:8080/messages/unread/count

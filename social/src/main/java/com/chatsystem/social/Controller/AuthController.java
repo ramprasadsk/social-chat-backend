@@ -2,6 +2,7 @@ package com.chatsystem.social.Controller;
 
 import com.chatsystem.social.DTO.LoginRequest;
 import com.chatsystem.social.DTO.RegisterRequest;
+import com.chatsystem.social.DTO.UserResponse;
 import com.chatsystem.social.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,12 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest registerRequest) {
+    public UserResponse register(@RequestBody RegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest){
+    public UserResponse login(@RequestBody LoginRequest loginRequest){
         return userService.login(loginRequest);
     }
 
